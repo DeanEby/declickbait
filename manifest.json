@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "declickbait",
+  "version": "0.0",
+  "description": "Replaces YouTube clickbait titles with informative semantically equivalent alternatives"
+}
