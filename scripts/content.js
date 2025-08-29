@@ -1,7 +1,10 @@
 (function () {
+  const result = window.winkSentiment("The Worst Kind Of Programmer");
+  console.log(result);
+
   document.addEventListener('yt-navigate-finish', function (event) {
     if (location.pathname === '/watch') {
-      console.log("Correct Pathname")
+      console.log("Correct Pathname");
       initiateObserverAndObserve();
     }
   });
@@ -23,17 +26,23 @@
     }
 
 
-  function changeTitleText(yt_lockup_view_model) {
-    console.log("Processing element:", yt_lockup_view_model);
-    if (!yt_lockup_view_model){
+  function changeTitleText(title_element) {
+    if (!title_element){
       return;
     }
+    console.log(`DECLICKBAIT - Processing element: ${title_element}`);
 
-    console.log(`DECLICKBAIT - ${yt_lockup_view_model}`)
+    title_text = title_element.textContent;
+
+    title_text_sentiment = window.winkSentiment(title_text).score;
+    console.log("DECLICKBAIT - Element text sentiment:", title_text_sentiment);
     
-    text = document.createElement('p');
-    text.textContent = "bababoey";
-    yt_lockup_view_model.replaceWith(text);
+    if (title_text_sentiment < 0) {
+      text = document.createElement('p');
+      text.textContent = "Likely Clickbait!";
+      title_element.replaceWith(text);
+    }
+    
   }
 
   // Wait for page to load and try multiple selectors

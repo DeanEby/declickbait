@@ -5,7 +5,11 @@
   "description": "Replaces YouTube clickbait titles with informative semantically equivalent alternatives",
   "content_scripts": [
     {
-      "js": ["scripts/content.js"],
+      "js": 
+      [
+        "scripts/bundle.js", 
+        "scripts/content.js"
+      ],
       "matches": ["*://*.youtube.com/*"],
       "run_at" : "document_start"
     }
