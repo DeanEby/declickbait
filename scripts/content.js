@@ -1,12 +1,6 @@
 (function () {
-  const result = window.winkSentiment("The Worst Kind Of Programmer");
-  console.log(result);
-
   document.addEventListener('yt-navigate-finish', function (event) {
-    if (location.pathname === '/watch') {
-      console.log("Correct Pathname");
-      initiateObserverAndObserve();
-    }
+    initiateObserverAndObserve();
   });
 
   var config = {
@@ -36,23 +30,28 @@
 
     title_text_sentiment = window.winkSentiment(title_text).score;
     console.log("DECLICKBAIT - Element text sentiment:", title_text_sentiment);
+
+    title_element.textContent = title_element.textContent.toLowerCase()
     
     if (title_text_sentiment < 0) {
-      text = document.createElement('p');
-      text.textContent = "Likely Clickbait!";
-      title_element.replaceWith(text);
+      title_element.textContent = "likely clickbait";
     }
     
   }
+
+
 
   // Wait for page to load and try multiple selectors
   function findAndChangeTitles() {
     console.log("findAndChangeTitles");
 
-    const elements = document.querySelectorAll("#contents > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span");
+    let elements = Array.from(document.querySelectorAll("#contents > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span"));
+    elements = elements.concat(Array.from(document.querySelectorAll("#content > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span")));
     for (let i = 0; i < elements.length; i++) {
       changeTitleText(elements[i]);
     }
     
   }
 })();
+
+// #content > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span
