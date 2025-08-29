@@ -42,19 +42,20 @@
   function findAndChangeTitles() {
     console.log("findAndChangeTitles");
 
-    let elements = Array.from(
-      document.querySelectorAll(
-        "#contents > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span"
-      )
-    );
-    elements = elements.concat(
-      Array.from(
-        document.querySelectorAll(
-          "#content > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span"
-        )
-      )
-    );
+    selectors = [
+      "#video-title",
+      "#contents > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span",
+      "#content > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span",
+    ];
+
+    let elements = [];
+    selectors.forEach(function (selector) {
+      console.log("Selector:", selector);
+      elements = elements.concat(Array.from(document.querySelectorAll(selector)));
+    });
+
     for (let i = 0; i < elements.length; i++) {
+      console.log("Debug:", elements[i]);
       changeTitleText(elements[i]);
     }
   }
