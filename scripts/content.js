@@ -1,4 +1,13 @@
+
 (function () {
+
+  window.extension_settings = {};
+
+  chrome.storage.sync.get(["negativity_filtering", "ellipses_removal", "exclam_removal", "lowercasing"], (result) => {
+    window.extension_settings = result;
+    initiateObserverAndObserve();
+  });
+
   document.addEventListener("yt-navigate-finish", function (event) {
     initiateObserverAndObserve();
   });
@@ -19,8 +28,9 @@
   }
 
   function changeTitleText(title_element) {
+    const { negativity_filtering, ellipses_removal, exclam_removal, lowercasing } = window.extension_settings;
     if (!title_element) {
-      return;
+    return;
     }
     console.log(`DECLICKBAIT - Processing element: ${title_element}`);
 
@@ -29,16 +39,25 @@
     title_text_sentiment = window.winkSentiment(title_text).score;
     console.log("DECLICKBAIT - Element text sentiment:", title_text_sentiment);
 
-    title_element.textContent = title_element.textContent.toLowerCase();
+    if (lowercasing) {
+      title_element.textContent = title_element.textContent.toLowerCase();
+    }
 
-    title_element.textContent = title_element.textContent.replace(/!/g, "");
+    if (exclam_removal) {
+      title_element.textContent = title_element.textContent.replace(/!/g, "");
+    }
 
-    if (title_text_sentiment < 0) {
-      title_element.textContent = "likely clickbait";
+    if (ellipses_removal) {
+      title_element.textContent = title_element.textContent.replace("...", "");
+    }
+
+    if (negativity_filtering) {
+      if (title_text_sentiment < 0) {
+        title_element.textContent = "likely clickbait";
+      }
     }
   }
 
-  // Wait for page to load and try multiple selectors
   function findAndChangeTitles() {
     console.log("findAndChangeTitles");
 
@@ -51,7 +70,9 @@
     let elements = [];
     selectors.forEach(function (selector) {
       console.log("Selector:", selector);
-      elements = elements.concat(Array.from(document.querySelectorAll(selector)));
+      elements = elements.concat(
+        Array.from(document.querySelectorAll(selector))
+      );
     });
 
     for (let i = 0; i < elements.length; i++) {
@@ -60,5 +81,3 @@
     }
   }
 })();
-
-// #content > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span
