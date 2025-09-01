@@ -63,6 +63,8 @@
 
     selectors = [
       "#video-title",
+      "#items > ytm-shorts-lockup-view-model-v2 > ytm-shorts-lockup-view-model > div > div > h3 > a > span",
+      "#content > ytm-shorts-lockup-view-model-v2 > ytm-shorts-lockup-view-model > div > div > h3 > a > span",
       "#contents > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span",
       "#content > yt-lockup-view-model > div > div > yt-lockup-metadata-view-model > div.yt-lockup-metadata-view-model__text-container > h3 > a > span",
     ];
