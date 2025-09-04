@@ -1,9 +1,12 @@
 const saveOptions = () => {
-  const negativity_filtering = document.getElementById("negativity_filtering").checked;
+  const negativity_filtering = document.getElementById(
+    "negativity_filtering"
+  ).checked;
   const ellipses_removal = document.getElementById("ellipses_removal").checked;
   const exclam_removal = document.getElementById("exclam_removal").checked;
   const lowercasing = document.getElementById("lowercasing").checked;
   const blocked_words = document.getElementById("blocked_words").value;
+  const blocklist = document.getElementById("blocklist").checked;
 
   chrome.storage.sync.set(
     {
@@ -11,11 +14,13 @@ const saveOptions = () => {
       ellipses_removal: ellipses_removal,
       exclam_removal: exclam_removal,
       lowercasing: lowercasing,
-      blocked_words: blocked_words
+      blocked_words: blocked_words,
+      blocklist: blocklist,
     },
     () => {
       const status = document.getElementById("status");
-      status.textContent = "Options saved. Refresh your youtube page for options to take effect.";
+      status.textContent =
+        "Options saved. Refresh your youtube page for options to take effect.";
       setTimeout(() => {
         status.textContent = "";
       }, 750);
@@ -31,6 +36,7 @@ const restoreOptions = () => {
       exclam_removal: false,
       lowercasing: true,
       blocked_words: "",
+      blocklist: false,
     },
     (items) => {
       document.getElementById("negativity_filtering").checked =
@@ -40,6 +46,7 @@ const restoreOptions = () => {
       document.getElementById("exclam_removal").checked = items.exclam_removal;
       document.getElementById("lowercasing").checked = items.lowercasing;
       document.getElementById("blocked_words").value = items.blocked_words;
+      document.getElementById("blocklist").checked = items.blocklist;
     }
   );
 };
