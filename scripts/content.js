@@ -2,6 +2,7 @@
 (function () {
 
   window.extension_settings = {};
+  let effected_elements = new Set([]);
 
   chrome.storage.sync.get(["negativity_filtering", "ellipses_removal", "exclam_removal", "lowercasing"], (result) => {
     window.extension_settings = result;
@@ -34,9 +35,9 @@
     }
     console.log(`DECLICKBAIT - Processing element: ${title_element}`);
 
-    title_text = title_element.textContent;
+    let title_text = title_element.textContent;
 
-    title_text_sentiment = window.winkSentiment(title_text).score;
+    let title_text_sentiment = window.winkSentiment(title_text).score;
     console.log("DECLICKBAIT - Element text sentiment:", title_text_sentiment);
 
     if (lowercasing) {
@@ -48,7 +49,7 @@
     }
 
     if (ellipses_removal) {
-      title_element.textContent = title_element.textContent.replace("...", "");
+      title_element.textContent = title_element.textContent.replace(/\.{3}/g, "");
     }
 
     if (negativity_filtering) {
@@ -61,7 +62,7 @@
   function findAndChangeTitles() {
     console.log("findAndChangeTitles");
 
-    selectors = [
+    let selectors = [
       "#video-title",
       "#items > ytm-shorts-lockup-view-model-v2 > ytm-shorts-lockup-view-model > div > div > h3 > a > span",
       "#content > ytm-shorts-lockup-view-model-v2 > ytm-shorts-lockup-view-model > div > div > h3 > a > span",
@@ -78,8 +79,11 @@
     });
 
     for (let i = 0; i < elements.length; i++) {
-      console.log("Debug:", elements[i]);
-      changeTitleText(elements[i]);
+      if (!effected_elements.has(elements[i])){
+        changeTitleText(elements[i]);
+        effected_elements.add(elements[i]);
+      }
+      
     }
   }
 })();

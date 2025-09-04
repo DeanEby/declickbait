@@ -7,7 +7,8 @@
     {
       "js": 
       [
-        "scripts/bundle.js", 
+        "scripts/winkPosTagger.js",
+        "scripts/winkSentiment.js", 
         "scripts/content.js"
       ],
       "matches": ["*://*.youtube.com/*"],

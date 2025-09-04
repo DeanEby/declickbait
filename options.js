@@ -3,6 +3,7 @@ const saveOptions = () => {
   const ellipses_removal = document.getElementById("ellipses_removal").checked;
   const exclam_removal = document.getElementById("exclam_removal").checked;
   const lowercasing = document.getElementById("lowercasing").checked;
+  const blocked_words = document.getElementById("blocked_words").value;
 
   chrome.storage.sync.set(
     {
@@ -10,6 +11,7 @@ const saveOptions = () => {
       ellipses_removal: ellipses_removal,
       exclam_removal: exclam_removal,
       lowercasing: lowercasing,
+      blocked_words: blocked_words
     },
     () => {
       const status = document.getElementById("status");
@@ -28,6 +30,7 @@ const restoreOptions = () => {
       ellipses_removal: false,
       exclam_removal: false,
       lowercasing: true,
+      blocked_words: "",
     },
     (items) => {
       document.getElementById("negativity_filtering").checked =
@@ -36,6 +39,7 @@ const restoreOptions = () => {
         items.ellipses_removal;
       document.getElementById("exclam_removal").checked = items.exclam_removal;
       document.getElementById("lowercasing").checked = items.lowercasing;
+      document.getElementById("blocked_words").value = items.blocked_words;
     }
   );
 };
