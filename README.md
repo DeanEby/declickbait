@@ -1,4 +1,4 @@
-##A **lightweight** chrome extension that fights back against youtube clickbait and rabbit holes. 
+## A **lightweight** chrome extension that fights back against youtube clickbait and rabbit holes. 
 
 This chrome extension employs several different methods of clickbait prevention:
 - Negativity Filtering: Clickbait often features a negative call to action that implies that if you don't watch the video there will be some negative consequence for you. Beyond that, shock value is also a commonly used strategy. This results in you not only being more likely to click on their video, but also an unnecessary exposure to negative and extreme sentiments. To fight back against this, a lightweight local in-browser sentiment analysis process analyzes each title and filters out titles featuring negativity.
