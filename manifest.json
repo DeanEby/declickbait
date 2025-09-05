@@ -1,13 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "declickbait",
-  "version": "0.0",
-  "description": "Replaces YouTube clickbait titles with informative semantically equivalent alternatives",
+  "name": "youtube declickbait",
+  "version": "1.0",
+  "description": "Allows you to be more intentional about the content you view on youtube.",
+  "action": {
+    "default_icon": "declickbait.png"
+  },
   "content_scripts": [
     {
       "js": 
       [
-        "scripts/winkPosTagger.js",
         "scripts/winkSentiment.js", 
         "scripts/content.js"
       ],
