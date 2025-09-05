@@ -4,7 +4,7 @@
   window.extension_settings = {};
   let effected_elements = new Set([]);
 
-  chrome.storage.sync.get(["negativity_filtering", "ellipses_removal", "exclam_removal", "lowercasing", "blocklist", "blocked_words"], (result) => {
+  chrome.storage.sync.get(["negativity_filtering", "ellipses_removal", "exclam_removal", "lowercasing", "blocklist", "blocked_words", "lockdown_mode"], (result) => {
     window.extension_settings = result;
     initiateObserverAndObserve();
   });
@@ -21,13 +21,17 @@
   };
 
   function initiateObserverAndObserve() {
+    const lockdown_mode = window.extension_settings.lockdown_mode;
     var observer = new MutationObserver(function (mutations) {
       setTimeout(findAndChangeTitles, 200);
+      if (lockdown_mode){
+        setTimeout(removeAllRecommendations, 200);
+      }
     });
     observer.observe(document.body, config);
   }
 
-  function changeTitleText(title_element) 
+  function changeTitleText(title_element) {
     const { negativity_filtering, ellipses_removal, exclam_removal, lowercasing, blocklist, blocked_words } = window.extension_settings;
     if (!title_element) {
     return;
@@ -60,6 +64,28 @@
         title_element.textContent = "blocked content [declickbait]";
       }
     }
+  }
+
+  function removeAllRecommendations() {
+    let selectors = [
+      "#items > ytd-item-section-renderer",
+      "#content > yt-lockup-view-model > div",
+      "#content > ytm-shorts-lockup-view-model-v2",
+      "#secondary"
+    ]
+    let elements = [];
+    selectors.forEach(function (selector) {
+      elements = elements.concat(
+        Array.from(document.querySelectorAll(selector))
+      );
+    });
+
+    for (let i = 0; i < elements.length; i++) {
+      if (!effected_elements.has(elements[i])){
+        elements[i].remove();
+      }
+    }
+  }
   
 
   function findAndChangeTitles() {

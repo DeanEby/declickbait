@@ -7,6 +7,7 @@ const saveOptions = () => {
   const lowercasing = document.getElementById("lowercasing").checked;
   const blocked_words = document.getElementById("blocked_words").value;
   const blocklist = document.getElementById("blocklist").checked;
+  const lockdown_mode = document.getElementById("lockdown_mode").checked;
 
   chrome.storage.sync.set(
     {
@@ -16,6 +17,7 @@ const saveOptions = () => {
       lowercasing: lowercasing,
       blocked_words: blocked_words,
       blocklist: blocklist,
+      lockdown_mode: lockdown_mode
     },
     () => {
       const status = document.getElementById("status");
@@ -37,6 +39,7 @@ const restoreOptions = () => {
       lowercasing: true,
       blocked_words: "",
       blocklist: false,
+      lockdown_mode: false
     },
     (items) => {
       document.getElementById("negativity_filtering").checked =
@@ -47,6 +50,7 @@ const restoreOptions = () => {
       document.getElementById("lowercasing").checked = items.lowercasing;
       document.getElementById("blocked_words").value = items.blocked_words;
       document.getElementById("blocklist").checked = items.blocklist;
+      document.getElementById("lockdown_mode").checked = items.lockdown_mode;
     }
   );
 };
